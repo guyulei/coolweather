@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="core-1.3.2">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/org.litepal.android/core/1.3.2/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/org.litepal.android/core/1.3.2/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/cc56a5f4d5d7b192d1bd51e03545fe5e613d7152/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/cc56a5f4d5d7b192d1bd51e03545fe5e613d7152/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
