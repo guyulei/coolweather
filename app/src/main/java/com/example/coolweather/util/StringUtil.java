@@ -7,6 +7,7 @@ public class StringUtil {
 
     public static String url_weather = "http://guolin.tech/api/weather?cityid=";
     public static String url_weather_key = "60925cecb90747fbb97b728daae55ef6";
+    public static String url_bing_pic = "http://tool.liumingye.cn/bingimg/img.php";
 
 
 
