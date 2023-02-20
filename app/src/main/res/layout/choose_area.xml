@@ -13,8 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            tools:ignore="MissingConstraints">
+            android:background="?attr/colorPrimary">
 
             <TextView
                 android:id="@+id/title_text"

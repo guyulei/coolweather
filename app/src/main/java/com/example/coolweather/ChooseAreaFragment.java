@@ -1,6 +1,7 @@
 package com.example.coolweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.coolweather.db.City;
 import com.example.coolweather.db.County;
 import com.example.coolweather.db.Province;
 import com.example.coolweather.util.HttpUtil;
+import com.example.coolweather.util.StringUtil;
 import com.example.coolweather.util.Utility;
 
 import org.litepal.LitePal;
@@ -85,6 +87,12 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(i);
                     queryCounties();
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String weatherId = countyList.get(i).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
@@ -116,8 +124,8 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel = LEVEL_PROVINCE;
         } else {
-            String address = "http://guolin.tech/api/china";
-            queryFromServer(address, "province");
+            //String address = "http://guolin.tech/api/china";
+            queryFromServer(StringUtil.url_province, "province");
         }
 
     }
@@ -125,7 +133,8 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCities() {
         titleText.setText(selectedProvince.getProvinceName());
         backButton.setVisibility(View.VISIBLE);
-        cityList = LitePal.where("provinceid=?", String.valueOf(selectedProvince.getId())).find(City.class);
+        //cityList = LitePal.where(String.valueOf(selectedProvince.getId())).find(City.class);
+        cityList = LitePal.findAll(City.class);
         if (cityList.size() > 0) {
             dataList.clear();
             for (City city : cityList) {
@@ -137,7 +146,7 @@ public class ChooseAreaFragment extends Fragment {
         } else {
             int provinceCode = selectedProvince.getProvinceCode();
 
-            String address = "http://guolin.tech/api/china/" + provinceCode;
+            String address = StringUtil.url_province + "/" + provinceCode;
             queryFromServer(address, "city");
         }
     }
@@ -145,7 +154,8 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCounties() {
         titleText.setText(selectedCity.getCityName());
         backButton.setVisibility(View.VISIBLE);
-        countyList = LitePal.where("cityid=?", String.valueOf(selectedCity.getId())).find(County.class);
+        //countyList = LitePal.where("cityid=?", String.valueOf(selectedCity.getId())).find(County.class);
+        countyList = LitePal.findAll(County.class);
         if (countyList.size() > 0) {
             dataList.clear();
             for (County county : countyList) {
@@ -157,7 +167,7 @@ public class ChooseAreaFragment extends Fragment {
         } else {
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
-            String address = "http://guolin.tech/api/china/" + provinceCode+"/" + cityCode;
+            String address = StringUtil.url_province + "/" + provinceCode + "/" + cityCode;
             queryFromServer(address, "county");
         }
 
@@ -174,7 +184,7 @@ public class ChooseAreaFragment extends Fragment {
                     @Override
                     public void run() {
                         closeProgressDialog();
-                        Log.e("guyulei",e.getMessage().toString());
+                        Log.e("guyulei", e.getMessage().toString());
                         Toast.makeText(getContext(), e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -214,9 +224,9 @@ public class ChooseAreaFragment extends Fragment {
 
     private void closeProgressDialog() {
 
-       if (progressDialog!=null){
-           progressDialog.dismiss();
-       }
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
     private void showProgressDialog() {
